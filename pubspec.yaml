@@ -29,16 +29,20 @@ environment:
 dependencies:
   audio_video_progress_bar: ^1.0.0
   cached_network_image: null
+  chewie: ^1.4.0
   cloud_firestore: ^4.4.0
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.2.6
   firebase_core: ^2.5.0
+  # firebase_core_platform_interface: ^4.4.1
+  # firebase_storage: ^11.0.1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.2
   fluttertoast: ^8.1.2
   image_picker: ^0.8.6
   just_audio: ^0.9.31
+  path: null
   shared_preferences: ^2.0.17
   shimmer: ^2.0.0
   video_player: ^2.5.1

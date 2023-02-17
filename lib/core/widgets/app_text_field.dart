@@ -10,7 +10,7 @@ class TextFieldItem extends StatelessWidget {
   final TextEditingController controller;
   final bool isSecure;
   final bool isPassword;
-  final IconData fristIcon;
+  final IconData? fristIcon;
 
   const TextFieldItem(
       {Key? key,
@@ -20,7 +20,7 @@ class TextFieldItem extends StatelessWidget {
       required this.controller,
       this.isSecure = false,
       this.isPassword = false,
-      this.onTapViewPassword, required this.fristIcon})
+      this.onTapViewPassword,   this.fristIcon})
       : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class TextFieldItem extends StatelessWidget {
       decoration: InputDecoration(
         labelText: lable,
         labelStyle: const TextStyle(color: AppColors.secondryColor),
-        prefixIcon:Icon(fristIcon,color: AppColors.secondryColor,) ,
+        prefixIcon:fristIcon== null?null:Icon(fristIcon,color: AppColors.secondryColor,) ,
         suffixIcon: isPassword
             ? IconButton(
                 onPressed: onTapViewPassword,

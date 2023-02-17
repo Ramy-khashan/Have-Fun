@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:havefun/core/utils/function/shared_prefrance_utils.dart';
+import 'package:havefun/core/utils/shared_preferance_const.dart';
 
 import '../../../../core/utils/function/validate.dart';
 import '../../../../core/utils/size_config.dart';
@@ -56,7 +58,7 @@ class ShowAndEditNameItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Ramy Khashan",
+                      PreferenceUtils.getString(SharedPreferencesConst.name),
                       style: TextStyle(
                         fontSize: getFont(25),
                         fontWeight: FontWeight.w700,

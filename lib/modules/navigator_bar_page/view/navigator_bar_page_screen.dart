@@ -33,6 +33,12 @@ class NavigatorBarPageScreen extends StatelessWidget {
                       size: getWidth(30),
                     ),
                     label: "",
+                  ), BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.add_circle_outline_rounded,
+                      size: getWidth(30),
+                    ),
+                    label: "",
                   ),
                   BottomNavigationBarItem(
                       icon: Icon(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:havefun/modules/upload/view/upload_screen.dart';
 
 import '../../home_page/view/home_page_screen.dart';
 import '../../profile/view/profile_screen.dart';
@@ -11,7 +12,7 @@ class NavigatorBarCubit extends Cubit<NavigatorBarState> {
   static NavigatorBarCubit get(context) => BlocProvider.of(context);
 
   int selectedPage = 0;
-  List<Widget> pages = [const HomePageScreen(), const ProfileScreen()];
+  List<Widget> pages = [const HomePageScreen(),UploadScreen(), const ProfileScreen()];
   onChangePage({required int pageIndex}) {
     selectedPage = pageIndex;
     emit(ChangePageIndexState());

@@ -6,6 +6,7 @@ import 'package:havefun/core/utils/shared_preferance_const.dart';
 import 'package:havefun/core/utils/size_config.dart';
 import 'package:havefun/core/widgets/app_button.dart';
 import 'package:havefun/core/widgets/custom_image_network.dart';
+import 'package:havefun/core/widgets/loading_item.dart';
 import 'package:havefun/modules/profile/controller/profile_cubit.dart';
 import 'package:havefun/modules/profile/view/widgets/show_and_edit_name.dart';
 
@@ -105,16 +106,26 @@ class ProfileScreen extends StatelessWidget {
                 const Spacer(),
                 AnimatedContainer(
                     duration: const Duration(milliseconds: 500),
-                    height:   controller.file != null ||
-                        controller.nameController.text.trim().isNotEmpty? getHeight(70) : 0,
+                    height: controller.file != null ||
+                            controller.nameController.text.trim().isNotEmpty
+                        ? getHeight(70)
+                        : 0,
                     child: AnimatedOpacity(
                       duration: const Duration(milliseconds: 500),
-                      opacity:   controller.file != null ||
-                        controller.nameController.text.trim().isNotEmpty? 1 : 0,
+                      opacity: controller.file != null ||
+                              controller.nameController.text.trim().isNotEmpty
+                          ? 1
+                          : 0,
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: getWidth(40), vertical: getHeight(5)),
-                        child: AppButton(onTap: () {}, head: "Update Profile"),
+                        child: controller.isLoadingUplading
+                            ? const LoadingItem()
+                            : AppButton(
+                                onTap: () {
+                                  controller.changeImageOrName(context);
+                                },
+                                head: "Update Profile"),
                       ),
                     )),
                 Padding(

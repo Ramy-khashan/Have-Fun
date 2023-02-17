@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +51,8 @@ class SignInCubit extends Cubit<SignInState> {
           await PreferenceUtils.setString(
               SharedPreferencesConst.uid, userData.docs[0].get("auth_id"));
           await PreferenceUtils.setString(
-              SharedPreferencesConst.uid, userData.docs[0].get("doc_id"));
+              SharedPreferencesConst.docId, userData.docs[0].get("doc_id"));
+          log(userData.docs[0].get("doc_id"));
         });
       });
       isLoadingSignIn = false;
