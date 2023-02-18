@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:havefun/core/utils/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../utils/app_assets.dart';
@@ -23,6 +24,10 @@ class CustomNetworkImage extends StatelessWidget {
         width: getWidth(width),
         height: getHeight(height),
         decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                colors: [AppColors.primaryColor, AppColors.secondryColor],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter),
             // borderRadius: BorderRadius.circular(radius),
             shape: BoxShape.circle),
         child: CachedNetworkImage(

@@ -1,18 +1,19 @@
-import 'dart:developer';
+// import 'dart:developer';
 import 'dart:io';
-import 'dart:math';
+// import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart' as path;
+// import 'package:path/path.dart' as path;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:havefun/core/utils/shared_preferance_const.dart';
 import 'package:havefun/modules/navigator_bar_page/view/navigator_bar_page_screen.dart';
-import 'package:image_picker/image_picker.dart';
+
 
 import '../../../core/utils/function/app_toast.dart';
+import '../../../core/utils/function/get_image_picker.dart';
 import '../../../core/utils/function/shared_prefrance_utils.dart';
 import '../../splash_screen/view/splash_screen.dart';
 
@@ -91,18 +92,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  // Future<String> uploadImageFirebase() async {
-  //   // int ranNum = Random().nextInt(10000000);
-  //   // String imageBasename = path.basename(file!.path) + ranNum.toString();
-
-  //   // var ref =
-  //   //     FirebaseStorage.instance.ref().child("personalImag/$imageBasename");
-  //   // await ref.putFile(
-  //   //   File(file!.path),
-  //   // );
-  //   // return await ref.getDownloadURL();
-  // }
-
+ 
   logOut(context) async {
     try {
       await FirebaseAuth.instance.signOut();
@@ -122,23 +112,18 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  late XFile xFile;
   late String image;
-  File? file;
-  getImage({required bool isCamera}) async {
+  File? imageFile;
+
+  Future<void> onGetImage({required bool isCamera}) async {
     try {
-      xFile = (await ImagePicker().pickImage(
-          source: isCamera ? ImageSource.camera : ImageSource.gallery))!;
-      if (xFile.path.isNotEmpty) {
-        file = File(xFile.path);
-        emit(SuccessGetImageState());
-      } else {
-        appToast(msg: "Something went wrong, Try again!");
-        emit(FaildGetImageState());
-      }
+      imageFile = await getImagePicker(isCamera: isCamera);
+      emit(SuccessGetImageState());
     } catch (e) {
+      imageFile = null;
       debugPrint(e.toString());
       emit(FaildGetImageState());
+      appToast(msg: "Something went wrong, Try again!");
     }
   }
 }

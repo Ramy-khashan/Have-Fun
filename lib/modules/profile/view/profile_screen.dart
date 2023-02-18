@@ -56,7 +56,7 @@ class ProfileScreen extends StatelessWidget {
                       right: 0,
                       left: 0,
                       bottom: 0,
-                      child: controller.file != null
+                      child: controller.imageFile != null
                           ? Stack(
                               children: [
                                 Center(
@@ -67,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
                                       decoration: const BoxDecoration(
                                           shape: BoxShape.circle),
                                       child: Image.file(
-                                        controller.file!,
+                                        controller.imageFile!,
                                         width: 140,
                                         height: 140,
                                         fit: BoxFit.fill,
@@ -91,7 +91,7 @@ class ProfileScreen extends StatelessWidget {
                               shape: BoxShape.circle, color: Colors.black),
                           child: IconButton(
                               onPressed: () {
-                                controller.getImage(isCamera: false);
+                                controller.onGetImage(isCamera: false);
                               },
                               icon: const Icon(
                                 Icons.camera_alt,
@@ -106,13 +106,13 @@ class ProfileScreen extends StatelessWidget {
                 const Spacer(),
                 AnimatedContainer(
                     duration: const Duration(milliseconds: 500),
-                    height: controller.file != null ||
+                    height: controller.imageFile != null ||
                             controller.nameController.text.trim().isNotEmpty
                         ? getHeight(70)
                         : 0,
                     child: AnimatedOpacity(
                       duration: const Duration(milliseconds: 500),
-                      opacity: controller.file != null ||
+                      opacity: controller.imageFile != null ||
                               controller.nameController.text.trim().isNotEmpty
                           ? 1
                           : 0,

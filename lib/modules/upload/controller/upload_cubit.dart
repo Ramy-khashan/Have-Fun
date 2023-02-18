@@ -12,7 +12,7 @@ class UploadCubit extends Cubit<UploadState> {
 
   static UploadCubit get(context) => BlocProvider.of(context);
   List<String> tabBarTitle = ["Video", "Music", "Memes"];
-  List<Widget> pages = const [
+  List<Widget> pages =  [
     UploadVideoScreen(),
     UploadMusicPart(),
     UploadMemesScreen()

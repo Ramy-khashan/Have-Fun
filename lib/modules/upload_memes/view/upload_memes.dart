@@ -5,6 +5,7 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/size_config.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
+import '../../../core/widgets/loading_item.dart';
 import '../../../core/widgets/text_title.dart';
 import '../controller/upload_memes_cubit.dart';
 
@@ -40,7 +41,7 @@ class UploadMemesScreen extends StatelessWidget {
                     controller.imageFile != null
                         ? IconButton(
                             onPressed: () async {
-                              // await controller.onGetImage();
+                              await controller.onGetImage();
                             },
                             icon: const Icon(Icons.replay_outlined))
                         : const SizedBox()
@@ -55,10 +56,13 @@ class UploadMemesScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: controller.imageFile != null
-                      ? Image.file(controller.imageFile!)
+                      ? Image.file(
+                          controller.imageFile!,
+                          fit: BoxFit.fill,
+                        )
                       : GestureDetector(
                           onTap: () async {
-                            // await controller.onGetImage();
+                            await controller.onGetImage();
                           },
                           child: SizedBox(
                             height: getHeight(194),
@@ -88,14 +92,13 @@ class UploadMemesScreen extends StatelessWidget {
                         ),
                 ),
                 const Spacer(),
-                // controller.isLoadingUploadMemes
-                //     ? const LoadingItem()
-                //     :
-                AppButton(
-                    onTap: () async {
-                      //  controller.uploadMemes();
-                    },
-                    head: "Upload Memes")
+                controller.isLoadingUploadMemes
+                    ? const LoadingItem()
+                    : AppButton(
+                        onTap: () async {
+                          controller.uploadMemes();
+                        },
+                        head: "Upload Memes")
               ],
             ),
           );
