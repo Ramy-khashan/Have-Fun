@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:havefun/modules/sound/model/music_model.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../model/page_manager.dart';
@@ -12,36 +11,16 @@ class SoundCubit extends Cubit<SoundState> {
   static SoundCubit get(context) => BlocProvider.of(context);
   late int duration = 0;
   late int selectedSongIndex;
-  late List<MusicModel> musicList = [
-    MusicModel(
-        musicUrl:
-            "https://firebasestorage.googleapis.com/v0/b/upload-music-3cd4e.appspot.com/o/WhatsApp%20Audio%202022-12-14%20at%2011.51.59%20AM.mp3?alt=media&token=98ff7d83-3e32-4c58-aed8-12ea0af6ae76",
-        musicName: "Song 1"),
-    MusicModel(
-        musicUrl:
-            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-        musicName: "Song 2"),
-    MusicModel(
-        musicUrl:
-            'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3',
-        musicName: "Song 3"),
-    MusicModel(musicUrl: 'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3', musicName: "Song 4"),
-    MusicModel(musicUrl: 'https://s3.amazonaws.com/scifri-segments/scifri201711241.mp3', musicName: "Song 5"),
-    // MusicModel(musicUrl: 'https://example.com/track3.mp3', musicName: "Song 6"),
-    // MusicModel(musicUrl: 'https://foo.com/bar.mp3', musicName: "Song 6")
-  ];
-  // List<String> url = [
-  //   "https://firebasestorage.googleapis.com/v0/b/upload-music-3cd4e.appspot.com/o/WhatsApp%20Audio%202022-12-14%20at%2011.51.59%20AM.mp3?alt=media&token=98ff7d83-3e32-4c58-aed8-12ea0af6ae76",
-  //   "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-  //   'https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba-online-audio-converter.com_-1.wav'
-  // ];
+  int selectedImage = 1;
+
   late AudioPlayer audioPlayer;
   double volume = 100;
-  void init(int intialSong) async {
-    selectedSongIndex = intialSong;
+  String? audioUrl;
+  void init(String audio) async {
     audioPlayer = AudioPlayer();
+    audioUrl = audio;
+    await audioPlayer.setUrl(audio);
 
-    await audioPlayer.setUrl(musicList[intialSong].musicUrl);
     audioPlayer.playerStateStream.listen((playerState) {
       final isPlaying = playerState.playing;
       final processingState = playerState.processingState;
@@ -104,7 +83,7 @@ class SoundCubit extends Cubit<SoundState> {
 
   void stop() async {
     await audioPlayer.stop();
-    init(selectedSongIndex);
+    init(audioUrl!);
   }
 
   void speed() async {
@@ -122,8 +101,13 @@ class SoundCubit extends Cubit<SoundState> {
     emit(ChangeAudioVolumeState());
   }
 
-  void dispose() {
+  @override
+  Future<void> close() {
+    audioPlayer.stop();
+
     audioPlayer.dispose();
+
+    return super.close();
   }
 
   final progressNotifier = ValueNotifier<ProgressBarState>(

@@ -23,7 +23,7 @@ class NavigatorBarPageScreen extends StatelessWidget {
             bottomNavigationBar: BottomNavigationBar(
                 selectedItemColor: AppColors.secondryColor,
                 onTap: (value) {
-                  controller.onChangePage(pageIndex: value);
+                  controller.onChangePage(pageIndex: value,context: context);
                 },
                 currentIndex: controller.selectedPage,
                 items: [

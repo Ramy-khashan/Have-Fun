@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:havefun/core/utils/app_colors.dart';
@@ -10,8 +12,6 @@ import 'package:havefun/core/widgets/loading_item.dart';
 import 'package:havefun/modules/sign_in/controller/sign_in_cubit.dart';
 import 'package:havefun/modules/sign_up/view/sign_up_screen.dart';
 
-import '../../navigator_bar_page/view/navigator_bar_page_screen.dart';
-
 class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);
 
@@ -21,6 +21,16 @@ class SignInScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => SignInCubit(),
       child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Platform.isAndroid?Icons.arrow_back:Icons.arrow_back_ios)),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
         body:
             SingleChildScrollView(child: BlocBuilder<SignInCubit, SignInState>(
           builder: (context, state) {
@@ -65,6 +75,49 @@ class SignInScreen extends StatelessWidget {
                         controller: controller.passwordController),
                   ),
                   GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => Form(
+                            key: controller.formKeyForget,
+                            child: AlertDialog(
+                              title: const Text("Forget Password"),
+                              content: Padding(
+                                padding: EdgeInsets.all(getWidth(10)),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    TextFieldItem(
+                                        isAutoFalidate: true,
+                                        lable: "Email Address",
+                                        onValidate: (validate) =>
+                                            Validate.validateEmail(validate),
+                                        controller: controller
+                                            .emailForgetPasswordController),
+                                    SizedBox(
+                                      height: getHeight(30),
+                                    ),
+                                    AppButton(
+                                        onTap: () async {
+                                          if (controller
+                                              .formKeyForget.currentState!
+                                              .validate()) {
+                                            await controller.forgetPassword(
+                                                context: context,
+                                                email: controller
+                                                    .emailForgetPasswordController
+                                                    .text
+                                                    .trim());
+                                          }
+                                        },
+                                        head: "Confirm")
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                       child: Container(
                           padding: EdgeInsets.only(right: getWidth(15)),
                           alignment: Alignment.centerRight,

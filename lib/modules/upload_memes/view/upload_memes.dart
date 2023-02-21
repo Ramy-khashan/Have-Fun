@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:havefun/core/utils/function/app_toast.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/size_config.dart';
@@ -20,7 +21,7 @@ class UploadMemesScreen extends StatelessWidget {
       child: BlocBuilder<UploadMemesCubit, UploadMemesState>(
         builder: (context, state) {
           final controller = UploadMemesCubit.get(context);
-          return Padding(
+          return SingleChildScrollView(
             padding: EdgeInsets.all(getWidth(15)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,12 +92,23 @@ class UploadMemesScreen extends StatelessWidget {
                           ),
                         ),
                 ),
-                const Spacer(),
+                SizedBox(
+                  height: getHeight(100),
+                ),
                 controller.isLoadingUploadMemes
                     ? const LoadingItem()
                     : AppButton(
                         onTap: () async {
-                          controller.uploadMemes();
+                          if (controller.descriptionController.text
+                                  .trim()
+                                  .isEmpty &&
+                              controller.imageFile == null) {
+                            appToast(
+                                msg:
+                                    "You must write description or select image to complete Process");
+                          } else {
+                            controller.uploadMemes();
+                          }
                         },
                         head: "Upload Memes")
               ],

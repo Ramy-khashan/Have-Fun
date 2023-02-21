@@ -30,7 +30,8 @@ class CustomNetworkImage extends StatelessWidget {
                 end: Alignment.bottomCenter),
             // borderRadius: BorderRadius.circular(radius),
             shape: BoxShape.circle),
-        child: CachedNetworkImage(
+        child: 
+        CachedNetworkImage(
           fit: BoxFit.contain,
           imageUrl: imageUrl,
           progressIndicatorBuilder: (context, url, progress) => SizedBox(

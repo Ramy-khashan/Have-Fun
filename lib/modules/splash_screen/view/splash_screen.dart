@@ -1,12 +1,9 @@
 import 'dart:async'; 
 
-import 'package:flutter/material.dart';
-import 'package:havefun/core/utils/function/shared_prefrance_utils.dart';
-import 'package:havefun/core/utils/shared_preferance_const.dart';
+import 'package:flutter/material.dart'; 
 import 'package:havefun/modules/navigator_bar_page/view/navigator_bar_page_screen.dart';
 
-import '../../../core/utils/size_config.dart';
-import '../../sign_in/view/sign_in_screen.dart';
+import '../../../core/utils/size_config.dart'; 
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,9 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                PreferenceUtils.getString(SharedPreferencesConst.uid).isEmpty
-                    ? const SignInScreen()
-                    : const NavigatorBarPageScreen(),
+                 const NavigatorBarPageScreen(),
           ),
           (route) => false);
     });

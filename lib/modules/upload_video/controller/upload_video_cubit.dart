@@ -1,13 +1,11 @@
-import 'dart:developer';
 import 'dart:io';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:havefun/core/utils/function/shared_prefrance_utils.dart';
-// import 'package:havefun/core/utils/shared_preferance_const.dart';
-// import 'package:path/path.dart' as path;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:havefun/core/utils/function/shared_prefrance_utils.dart';
+import 'package:havefun/core/utils/shared_preferance_const.dart';
+import 'package:path/path.dart' as path;
 
-// import 'dart:io';
-// import 'dart:math';
+import 'dart:math';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,10 +23,12 @@ class UploadVideoCubit extends Cubit<UploadVideoState> {
   @override
   Future<void> close() {
     try {
-      videoPlayerController1.dispose();
-      chewieController?.dispose();
+      if (isEnter) {
+        videoPlayerController1.dispose();
+        chewieController?.dispose();
+      }
     } catch (e) {
-      log(e.toString());
+      debugPrint(e.toString());
     }
     return super.close();
   }
@@ -37,7 +37,6 @@ class UploadVideoCubit extends Cubit<UploadVideoState> {
 
   late XFile xFileVideo;
   File? fileVideo;
-  // bool isLoadingGetVideoAndShow = false;
   onGetVideo() async {
     try {
       xFileVideo =
@@ -56,7 +55,9 @@ class UploadVideoCubit extends Cubit<UploadVideoState> {
   late VideoPlayerController videoPlayerController1;
   ChewieController? chewieController;
   int? bufferDelay;
+  bool isEnter = false;
   Future<void> initializePlayer() async {
+    isEnter = true;
     try {
       videoPlayerController1 = VideoPlayerController.file(fileVideo!);
 
@@ -84,53 +85,51 @@ class UploadVideoCubit extends Cubit<UploadVideoState> {
     );
   }
 
-  // uploadAndGetUrlVideo() async {
-  //   int ranNum = Random().nextInt(10000000);
-  //   String videoBasename = path.basename(fileVideo!.path) + ranNum.toString();
+  uploadAndGetUrlVideo() async {
+    int ranNum = Random().nextInt(10000000);
+    String videoBasename = path.basename(fileVideo!.path) + ranNum.toString();
 
-  //   var ref =
-  //       FirebaseStorage.instance.ref().child("videos/$videoBasename");
-  //   await ref.putFile(
-  //     File(fileVideo!.path),
-  //   );
-  //   return await ref.getDownloadURL();
-  // }
+    var ref = FirebaseStorage.instance.ref().child("videos/$videoBasename");
+    await ref.putFile(
+      File(fileVideo!.path),
+    );
+    return await ref.getDownloadURL();
+  }
 
-  // bool isLoadingUploadVideo = false;
-  // uploadVideo() async {
-  //   isLoadingUploadVideo = true;
-  //   emit(LoadingUploadVideoState());
-  //   try {
-  //     String videoUrl = await uploadAndGetUrlVideo();
-  //     await FirebaseFirestore.instance.collection("video").add({
-  //       "description": descriptionVideo.text.trim().isEmpty
-  //           ? ""
-  //           : descriptionVideo.text.trim(),
-  //       "added_date": DateTime.now(),
-  //       "video_url": videoUrl,
-  //       "user_id": PreferenceUtils.getString(SharedPreferencesConst.docId)
-  //     }).then((value) async {
-  //       await FirebaseFirestore.instance
-  //           .collection("video")
-  //           .doc(value.id)
-  //           .update({"doc_id": value.id});
-  //       fileVideo = null;
-  //       videoPlayerController1.dispose();
-  //       chewieController?.dispose();
+  bool isLoadingUploadVideo = false;
+  uploadVideo() async {
+    isLoadingUploadVideo = true;
+    emit(LoadingUploadVideoState());
+    try {
+      String videoUrl = await uploadAndGetUrlVideo();
+      await FirebaseFirestore.instance.collection("video").add({
+        "description": descriptionVideo.text.trim().isEmpty
+            ? ""
+            : descriptionVideo.text.trim(),
+        "added_date": DateTime.now(),
+        "video_url": videoUrl,
+        "user_id": PreferenceUtils.getString(SharedPreferencesConst.docId)
+      }).then((value) async {
+        await FirebaseFirestore.instance
+            .collection("video")
+            .doc(value.id)
+            .update({"doc_id": value.id});
+        fileVideo = null;
+        videoPlayerController1.dispose();
+        chewieController?.dispose();
 
-  //       isLoadingUploadVideo = false;
-  //       emit(SuccessUploadVideoState());
-  //       appToast(msg: "Video Update Successfuly");
-  //     }).onError((error, stackTrace) {
-  //       isLoadingUploadVideo = false;
-  //       emit(FaildUploadVideoState());
-  //       appToast(msg: "Something went wrong, try again!");
-  //     });
-  //   } catch (e) {
-  //     isLoadingUploadVideo = false;
-  //     emit(FaildUploadVideoState());
-  //     appToast(msg: "Something went wrong, try again!");
-  //   }
-  // }
-
+        isLoadingUploadVideo = false;
+        emit(SuccessUploadVideoState());
+        appToast(msg: "Video Update Successfuly");
+      }).onError((error, stackTrace) {
+        isLoadingUploadVideo = false;
+        emit(FaildUploadVideoState());
+        appToast(msg: "Something went wrong, try again!");
+      });
+    } catch (e) {
+      isLoadingUploadVideo = false;
+      emit(FaildUploadVideoState());
+      appToast(msg: "Something went wrong, try again!");
+    }
+  }
 }

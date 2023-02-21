@@ -16,16 +16,17 @@ class SignInCubit extends Cubit<SignInState> {
   SignInCubit() : super(SignInInitial());
   static SignInCubit get(context) => BlocProvider.of(context);
   final formKey = GlobalKey<FormState>();
+  final formKeyForget = GlobalKey<FormState>();
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final emailForgetPasswordController = TextEditingController();
   bool isSecurePassword = true;
   switchViewPassword() {
     isSecurePassword = !isSecurePassword;
     emit(ChangeViewPasswordState());
   }
 
-  login() async {}
   bool isLoadingSignIn = false;
   signIn({context}) async {
     isLoadingSignIn = true;
@@ -73,5 +74,14 @@ class SignInCubit extends Cubit<SignInState> {
       isLoadingSignIn = false;
       emit(FaildSignInState());
     }
+  }
+
+  forgetPassword({required String email,context}) async {
+    await FirebaseAuth.instance
+        .sendPasswordResetEmail(email: email)
+        .then((value) {
+      appToast(msg: "Check your mail");
+      Navigator.pop(context);
+    });
   }
 }

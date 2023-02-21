@@ -32,10 +32,10 @@ class UploadMemesCubit extends Cubit<UploadMemesState> {
     isLoadingUploadMemes = true;
     emit(LoadingUploadMemesState());
     try {
-      image = await uploadImageFirebase(imageFile: imageFile!);
+      image = await uploadImageFirebase(imageFile: imageFile!, folder: "memes");
       await FirebaseFirestore.instance.collection("memes").add(
         {
-          "memes_img": image,
+          "memes_img": image ?? "",
           "description": descriptionController.text.trim().isEmpty
               ? ""
               : descriptionController.text.trim(),
@@ -46,13 +46,19 @@ class UploadMemesCubit extends Cubit<UploadMemesState> {
             .collection("memes")
             .doc(value.id)
             .update({"doc_id": value.id});
+        descriptionController.clear();
+        imageFile = null;
       });
       isLoadingUploadMemes = false;
+      
+        appToast(msg: "Memes Update Successfuly");
       emit(SuccessUploadMemesState());
     } catch (e) {
       isLoadingUploadMemes = false;
       emit(FaildUploadMemesState());
       debugPrint(e.toString());
+      
+      appToast(msg: "Something went wrong, try again!");
     }
   }
 }

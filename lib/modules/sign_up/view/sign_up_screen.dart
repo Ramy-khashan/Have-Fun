@@ -1,6 +1,6 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:havefun/core/utils/function/validate.dart';
 import 'package:havefun/core/utils/size_config.dart';
@@ -21,13 +21,24 @@ class SignUpScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => SignUpCubit(),
       child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Platform.isAndroid
+                  ? Icons.arrow_back
+                  : Icons.arrow_back_ios)),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
         body:
             SingleChildScrollView(child: BlocBuilder<SignUpCubit, SignUpState>(
           builder: (context, state) {
             final controller = SignUpCubit.get(context);
             return Form(
-              key:controller.formKey ,
-
+              key: controller.formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -48,7 +59,8 @@ class SignUpScreen extends StatelessWidget {
                     child: TextFieldItem(
                         fristIcon: Icons.person,
                         lable: "Full Name",
-                        onValidate: (validate) => Validate.validateName(validate),
+                        onValidate: (validate) =>
+                            Validate.validateName(validate),
                         controller: controller.fullNameController),
                   ),
                   Padding(
@@ -86,8 +98,9 @@ class SignUpScreen extends StatelessWidget {
                         ? const LoadingItem()
                         : AppButton(
                             onTap: () async {
-                              if(controller.formKey.currentState!.validate()){
-                              await controller.signUp(context: context);}
+                              if (controller.formKey.currentState!.validate()) {
+                                await controller.signUp(context: context);
+                              }
                             },
                             head: "Sign Up"),
                   ),

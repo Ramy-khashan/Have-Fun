@@ -13,3 +13,6 @@ class ChangeVolumeVideoState extends VideosState {}
 class LoadingVideoState extends VideosState {}
 class InstializeVideoState extends VideosState {} 
 class VideoEndState extends VideosState {} 
+class LoadingGetVideoState extends VideosState {} 
+class SuccessGetVideoState extends VideosState {} 
+class FaildGetVideoState extends VideosState {} 

@@ -10,6 +10,7 @@ class TextFieldItem extends StatelessWidget {
   final TextEditingController controller;
   final bool isSecure;
   final bool isPassword;
+  final bool isAutoFalidate;
   final IconData? fristIcon;
 
   const TextFieldItem(
@@ -20,12 +21,17 @@ class TextFieldItem extends StatelessWidget {
       required this.controller,
       this.isSecure = false,
       this.isPassword = false,
-      this.onTapViewPassword,   this.fristIcon})
+      this.onTapViewPassword,
+      this.fristIcon,
+      this.isAutoFalidate = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: isAutoFalidate
+          ? AutovalidateMode.always
+          : AutovalidateMode.disabled,
       obscureText: isPassword ? isSecure : false,
       cursorColor: AppColors.secondryColor,
       controller: controller,
@@ -34,7 +40,12 @@ class TextFieldItem extends StatelessWidget {
       decoration: InputDecoration(
         labelText: lable,
         labelStyle: const TextStyle(color: AppColors.secondryColor),
-        prefixIcon:fristIcon== null?null:Icon(fristIcon,color: AppColors.secondryColor,) ,
+        prefixIcon: fristIcon == null
+            ? null
+            : Icon(
+                fristIcon,
+                color: AppColors.secondryColor,
+              ),
         suffixIcon: isPassword
             ? IconButton(
                 onPressed: onTapViewPassword,

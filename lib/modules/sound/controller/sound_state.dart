@@ -8,4 +8,5 @@ class LoadingAudioState extends SoundState {}
 class PlayingAudioState extends SoundState {}
 class PausedAudioState extends SoundState {}
 class GetDurationState extends SoundState {}
+class GetRandomImageState extends SoundState {}
 class ChangeAudioVolumeState extends SoundState {}

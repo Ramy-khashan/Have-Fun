@@ -7,6 +7,7 @@ import 'package:havefun/modules/videos/view/videos_screen.dart';
 import '../../../core/widgets/head_shape.dart';
 import '../../memes/view/memes_screen.dart';
 import '../../sound/view/sound_screen.dart';
+import '../../sound_category/view/sound_category_screen.dart';
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class HomePageScreen extends StatelessWidget {
                             builder: (context) => controller.selectedIndex == 0
                                 ? const VideosScreen()
                                 : controller.selectedIndex == 1
-                                    ? const SoundScreen()
+                                    ? const SoundCategoryScreen()
                                     : const MemesScreen()));
                   },
                   child: Container(
