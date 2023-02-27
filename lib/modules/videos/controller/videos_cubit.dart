@@ -1,4 +1,4 @@
-import 'dart:developer';
+ 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,15 +18,15 @@ class VideosCubit extends Cubit<VideosState> {
     try {
       await FirebaseFirestore.instance.collection("video").get().then(
         (value) {
-          log("lol");
+          
           if (value.docs.isEmpty) {
-            log("lol222");
+           
             videoList = [];
             isLoadingGetVideo = false;
             emit(SuccessGetVideoState());
           } else {
             for (var element in value.docs) {
-              log("lol1");
+           
 
               videoList.add(VideoModel.fromJson(element.data()));
             }
@@ -55,7 +55,7 @@ class VideosCubit extends Cubit<VideosState> {
   bool isPlaying = true;
   bool isHidePlaying = false;
   void intializeVideo({required int selectedIndex}) {
-    log("message");
+   videoVolume=100;
     isLoadingVideo = true;
     isPlaying = true;
     isHidePlaying = false;

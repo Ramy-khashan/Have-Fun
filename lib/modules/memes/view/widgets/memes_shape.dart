@@ -4,11 +4,11 @@ import 'package:havefun/core/utils/function/commet_model_sheet.dart';
 import 'package:havefun/core/utils/function/validate.dart';
 import 'package:havefun/core/widgets/loading_item.dart';
 import 'package:havefun/modules/memes/model/memes_model.dart';
-
-import '../../../../core/utils/app_assets.dart';
+ 
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/size_config.dart';
 import '../../../../core/widgets/app_button.dart';
+import 'show_image_screen.dart';
 
 class MemesShapeItem extends StatelessWidget {
   final MemesModel memesModel;
@@ -17,9 +17,12 @@ class MemesShapeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      
+
+      margin: EdgeInsets.all(getWidth(15)),
       clipBehavior: Clip.antiAliasWithSaveLayer,
      decoration: BoxDecoration(
+      color: Colors.black,
+      boxShadow: [BoxShadow(color: Colors.grey.shade900,blurRadius: 8,spreadRadius: 3)],
       borderRadius: BorderRadius.circular(12)
      ),
       child: Column(
@@ -44,15 +47,20 @@ class MemesShapeItem extends StatelessWidget {
                     ),
                   ),
                 ),
-          CachedNetworkImage(
-            height: getHeight(250),
-            width: double.infinity,
-              fit: BoxFit.fill,
-              imageUrl: memesModel.memesImg!,
-              progressIndicatorBuilder: (context, url, progress) =>
-                  SizedBox(height: getHeight(250), child: const LoadingItem()),
-              errorWidget: (context, url, error) =>
-                 const Center(child:   Text("Something went wrong, Check your network!"))),
+          InkWell(
+            onTap: (){
+              Navigator.push(context,MaterialPageRoute(builder: (context)=>ShowImageScreen(memesImg: memesModel.memesImg!,)));
+            },
+            child: CachedNetworkImage(
+              height: getHeight(250),
+              width: double.infinity,
+                fit: BoxFit.contain,
+                imageUrl: memesModel.memesImg!,
+                progressIndicatorBuilder: (context, url, progress) =>
+                    SizedBox(height: getHeight(250), child: const LoadingItem()),
+                errorWidget: (context, url, error) =>
+                   const Center(child:   Text("Something went wrong, Check your network!"))),
+          ),
           const Divider(
             color: AppColors.secondryColor,
           ),

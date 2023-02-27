@@ -1,8 +1,6 @@
-import 'dart:developer';
-
+ 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
+import 'package:flutter_bloc/flutter_bloc.dart'; 
 
 import '../model/memes_model.dart';
 

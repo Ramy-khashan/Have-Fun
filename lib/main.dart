@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:havefun/core/utils/app_colors.dart';
-import 'package:havefun/modules/videos/controller/videos_cubit.dart';
 import 'core/utils/app_string.dart';
 import 'core/utils/function/shared_prefrance_utils.dart';
 import 'modules/splash_screen/view/splash_screen.dart';

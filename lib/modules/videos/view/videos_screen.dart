@@ -1,8 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:havefun/core/utils/app_colors.dart';
-import 'package:havefun/core/utils/size_config.dart';
+ import 'package:havefun/core/utils/size_config.dart';
 import 'package:havefun/core/widgets/empty.dart';
 import 'package:video_player/video_player.dart';
 import '../../../core/widgets/loading_item.dart';
@@ -22,8 +23,21 @@ class VideosScreen extends StatelessWidget {
             extendBodyBehindAppBar: true,
             appBar: AppBar(
               backgroundColor: Colors.transparent,
+           leading: Container(
+             margin: EdgeInsets.only(left: getWidth(7),top: getHeight(4),bottom: getHeight(2)),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(15)),
+                    child: IconButton(
+                      onPressed: () {
+                 Navigator.pop(context);
+                      },
+                      icon: Icon(Platform.isAndroid
+                          ? Icons.arrow_back
+                          : Icons.arrow_back_ios,color: Colors.white,)),
+           ),
               actions: [
-                Container(
+                Container(margin: EdgeInsets.only(right: getWidth(15)),
                   decoration: BoxDecoration(
                       color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.circular(15)),

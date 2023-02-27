@@ -57,7 +57,7 @@ needLogin({required BuildContext context}) => showModalBottomSheet(
                            Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const SignInScreen(),
+                            builder: (context) => const SignUpScreen(),
                           ),
                         );
        

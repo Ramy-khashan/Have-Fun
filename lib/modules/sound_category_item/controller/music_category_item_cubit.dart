@@ -1,4 +1,4 @@
-import 'dart:developer';
+ 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ class MusicCategoryItemCubit extends Cubit<MusicCategoryItemState> {
           .where("category", isEqualTo: category.trim())
           .get()
           .then((value) {
-        log(value.docs.length.toString());
+      
         for (var element in value.docs) {
           musicList.add(MusicModel.fromJson(element.data()));
         } 
