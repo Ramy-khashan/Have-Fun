@@ -63,53 +63,7 @@ class ProfileScreen extends StatelessWidget {
                                 ])),
                           ),
                         ),
-                        Positioned(
-                          right: 0,
-                          left: 0,
-                          bottom: 0,
-                          child: controller.imageFile != null
-                              ? Stack(
-                                  children: [
-                                    Center(
-                                      child: Container(
-                                          clipBehavior:
-                                              Clip.antiAliasWithSaveLayer,
-                                          width: getWidth(140),
-                                          height: getHeight(140),
-                                          decoration: const BoxDecoration(
-                                              shape: BoxShape.circle),
-                                          child: Image.file(
-                                            controller.imageFile!,
-                                            width: 140,
-                                            height: 140,
-                                            fit: BoxFit.fill,
-                                          )),
-                                    ),
-                                  ],
-                                )
-                              : CustomNetworkImage(
-                                  imageUrl: PreferenceUtils.getString(
-                                      SharedPreferencesConst.image),
-                                  width: 140,
-                                  height: 140,
-                                ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          left: 110,
-                          right: 0,
-                          child: Container(
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle, color: Colors.black),
-                              child: IconButton(
-                                  onPressed: () {
-                                    controller.onGetImage(isCamera: false);
-                                  },
-                                  icon: const Icon(
-                                    Icons.camera_alt,
-                                  ))),
-                        )
-                      ],
+                      c],
                     ),
                     SizedBox(
                       height: getHeight(15),
